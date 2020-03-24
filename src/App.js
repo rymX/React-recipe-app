@@ -13,16 +13,18 @@ const App = ()=>
 
   const [recipes, setRecipes]= useState([]);
   const [search, setSearch]= useState('');
-  const [query , setQuery]= useState('banana');
+  const [query , setQuery]= useState('limon');
 
   useEffect( ()=>{
-    getrecipe();
-   
+    getrecipe(); 
   },[query] )
+
    const getrecipe = async ()=>{
     const responces = await fetch(`https://api.edamam.com/search?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}`);
     const data = await responces.json();
+
     setRecipes(data.hits);
+    if (!Object.label(data).length){console.log('empty')}
 
     console.log(data.hits);
   }
@@ -39,6 +41,7 @@ const getQuery = e => {
   setSearch('');
 }
 
+
   return(
   <div className="App">
     <form className="forme" onSubmit={getQuery} >
@@ -47,7 +50,8 @@ const getQuery = e => {
     
     </form>
     <div className="liste">
-    {recipes.map(recipe => (
+    {
+    recipes.map(recipe => (
       <Recipe  key={recipe.recipe.label}
        title={recipe.recipe.label}
        calories={recipe.recipe.calories} 
